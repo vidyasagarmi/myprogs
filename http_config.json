@@ -1,0 +1,98 @@
+{
+    "VirtualService": [
+        {
+            "services": [
+                {
+                    "port": 9000
+                }
+            ], 
+            "vsvip_ref": "/api/vsvip/?name=vsvip-virtualservice-1", 
+            "pool_ref": "/api/pool/?name=pool1", 
+            "application_profile_ref": "/api/applicationprofile/?name=applicationprofile-1", 
+            "name": "virtualservice-1"
+        }
+    ], 
+    "VsVip": [
+        {
+            "vip": [
+                {
+                    "ip_address": {
+                        "type": "V4", 
+                        "addr": "${net1}"
+                    }, 
+                    "vip_id": "0"
+                }
+            ], 
+            "name": "vsvip-virtualservice-1"
+        }
+    ],
+    "ApplicationPersistenceProfile": [
+        {
+            "name": "client-ip",
+            "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
+            "server_hm_down_recovery": "HM_DOWN_ABORT_CONNECTION"
+        },
+        {   
+            "name": "client-ip-persistence",
+            "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
+		    "ip_persistence_profile": {
+                "ip_persistent_timeout": 1
+            }
+        }
+
+    ],
+    "ApplicationProfile": [
+        {
+            "http_profile": {
+                "connection_multiplexing_enabled": false
+            },
+            "name": "applicationprofile-1",
+            "type": "APPLICATION_PROFILE_TYPE_HTTP"
+        }
+    ],
+    "NetworkProfile": [
+        {
+            "name": "networkprofile-1",
+            "profile": {
+                "tcp_proxy_profile": {
+                    "idle_connection_timeout": 300,
+                    "idle_connection_type": "CLOSE_IDLE"
+                },
+                "type": "PROTOCOL_TYPE_TCP_PROXY"
+            }
+        }
+    ],
+    "Pool": [
+        {
+            "health_monitor_refs": [
+                "/api/healthmonitor/?name=healthmonitor-1"
+            ],
+            "default_server_port": 80,
+            "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
+            "name": "pool1",
+            "servers": [
+                {
+                    "app_type": "httptest",
+                    "enabled": true,
+                    "handle": "s_1",
+                    "ip": {
+                        "addr": "${net1}",
+                        "type": "V4"
+                    },
+                    "ratio": 1
+                }
+            ]
+        }
+    ],
+    "HealthMonitor": [
+        {
+            "failed_checks": 3,
+            "name": "healthmonitor-1",
+            "receive_timeout": 4,
+            "send_interval": 10,
+            "successful_checks": 3,
+            "tcp_monitor": {},
+            "type": "HEALTH_MONITOR_HTTP"
+        }
+    ]
+}

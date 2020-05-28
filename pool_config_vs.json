@@ -1,0 +1,29 @@
+{
+    "VirtualService": [
+        {
+            "services": [
+                {
+                    "port": 9000
+                }
+            ], 
+            "vsvip_ref": "/api/vsvip/?name=vsvip-virtualservice-1", 
+            "pool_ref": "/api/pool/?name=algo_pool", 
+            "application_profile_ref": "/api/applicationprofile/?name=applicationprofile-1", 
+            "name": "virtualservice-1"
+        }
+    ], 
+    "VsVip": [
+        {
+            "vip": [
+                {
+                    "ip_address": {
+                        "type": "V4", 
+                        "addr": "${net1}"
+                    }, 
+                    "vip_id": "0"
+                }
+            ], 
+            "name": "vsvip-virtualservice-1"
+        }
+    ]
+}

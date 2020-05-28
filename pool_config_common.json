@@ -1,0 +1,93 @@
+{
+    "ApplicationPersistenceProfile": [
+        {
+            "name": "client-ip",
+            "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
+            "server_hm_down_recovery": "HM_DOWN_ABORT_CONNECTION"
+        },
+        {   
+            "name": "client-ip-persistence",
+            "persistence_type": "PERSISTENCE_TYPE_CLIENT_IP_ADDRESS",
+		    "ip_persistence_profile": {
+                "ip_persistent_timeout": 1
+            }
+        }
+
+    ],
+    "ApplicationProfile": [
+        {
+            "name": "applicationprofile-1",
+            "type": "APPLICATION_PROFILE_TYPE_L4"
+        }
+    ],
+    "NetworkProfile": [
+        {
+            "name": "networkprofile-1",
+            "profile": {
+                "tcp_proxy_profile": {
+                    "idle_connection_timeout": 300,
+                    "idle_connection_type": "CLOSE_IDLE"
+                },
+                "type": "PROTOCOL_TYPE_TCP_PROXY"
+            }
+        }
+    ],
+    "Pool": [
+        {
+            "default_server_port": 8000,
+            "lb_algorithm": "LB_ALGORITHM_ROUND_ROBIN",
+            "name": "algo_pool",
+            "servers": [
+                {
+                    "app_type": "httptest",
+                    "enabled": true,
+                    "handle": "s_1",
+                    "ip": {
+                        "addr": "${net1}",
+                        "type": "V4"
+                    },
+                    "ratio": 1
+                },
+                {
+                    "app_type": "httptest",
+                    "enabled": true,
+                    "handle": "s_2",
+                    "ip": {
+                        "addr": "${net1}",
+                        "type": "V4"
+                    },
+                    "ratio": 1
+                }
+            ]
+        },
+        {
+            "connection_ramp_duration": 33,
+            "default_server_port": 8000,
+            "lb_algorithm": "LB_ALGORITHM_FASTEST_RESPONSE",
+            "max_concurrent_connections_per_server": 444,
+            "name": "algo_pool_2",
+            "servers": [
+                {
+                    "app_type": "httptest",
+                    "enabled": true,
+                    "handle": "z_1",
+                    "ip": {
+                        "addr": "${net1}",
+                        "type": "V4"
+                    },
+                    "ratio": 1
+                },
+                {
+                    "app_type": "httptest",
+                    "enabled": true,
+                    "handle": "z_2",
+                    "ip": {
+                        "addr": "${net1}",
+                        "type": "V4"
+                    },
+                    "ratio": 1
+                }
+            ]
+        }
+    ]
+}
